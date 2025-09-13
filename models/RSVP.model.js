@@ -22,7 +22,7 @@ const rsvpSchema = new Schema(
         reservedAt: true, 
         updateAt: false,
     }
- }
+  }
 );
 
 const RSVP = model("RSVP", rsvpSchema);
