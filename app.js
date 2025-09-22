@@ -20,9 +20,11 @@ try {
 
 const indexRoutes = require('./routes/index.routes.js'); 
 const authRoutes  = require('./routes/auth.routes.js');  
+const eventsRoutes  = require('./routes/events.routes.js');  
 
 app.use('/api', indexRoutes);
 app.use('/auth', authRoutes);
+app.use('/events', eventsRoutes);
 
 try {
   require('./error-handling')(app);
