@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 const eventSchema = new Schema(
   {
@@ -39,13 +40,13 @@ const eventSchema = new Schema(
     },
     capacity: {
         number: { type: Number, required: true, min: 1 },
-        seatsRemaning: { type: Number, required: true }
+        seatsRemaining: { type: Number, required: true }
     },
     location: {
         address: { type: String },
         city: { type: String, required: true},
         postCode: { type: String },
-        country: { type: String, default: Netherlands };
+        country: { type: String, default: "Netherlands" },
         coords: { 
             type: { type: String, enum: ["Point"], default: "Point"},
             coordinates: { type: [Number], required: true }
@@ -59,7 +60,7 @@ const eventSchema = new Schema(
     venueType: {
         type: String,
         enum: ["Indoor", "Outdoor"],
-        required: function (params) {
+        required: function () {
             return this.eventMode === "Inperson";
         }
     },
