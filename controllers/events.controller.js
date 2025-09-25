@@ -15,8 +15,8 @@ async function getEventById(req, res) {
 
     res.json(event);
 } catch (err) {
-    console.error('getEventById:', error);
+    console.error('getEventById:', err);
     res.status(500).json({ message: 'error'});
 }
 }
- module.export = { getEventById};
+ module.exports = { getEventById };
