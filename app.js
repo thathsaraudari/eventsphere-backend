@@ -25,6 +25,7 @@ const eventsRoutes  = require('./routes/events.routes.js');
 app.use('/api', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/events', eventsRoutes);
+app.use('/api/events', eventsRoutes);
 
 try {
   require('./error-handling')(app);
