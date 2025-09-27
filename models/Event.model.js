@@ -43,14 +43,29 @@ const eventSchema = new Schema(
         seatsRemaining: { type: Number, required: true }
     },
     location: {
-        address: { type: String },
-        city: { type: String, required: true},
-        postCode: { type: String },
-        country: { type: String, default: "Netherlands" },
-        coords: { 
-            type: { type: String, enum: ["Point"], default: "Point"},
-            coordinates: { type: [Number], required: true }
+        type: {
+            address: { type: String },
+            city: { 
+                type: String, 
+                required: function () { 
+                    return this.eventMode === "Inperson";
+                }
+            },
+            postCode: { type: String },
+            country: { type: String, default: "Netherlands" },
+            coords: { 
+                type: { type: String, enum: ["Point"], default: "Point"},
+                coordinates: { 
+                    type: [Number], 
+                    required: function () { 
+                        return this.eventMode === "Inperson";
+                    }
+                }
             }
+        },
+        required: function () {
+            return this.eventMode === "Inperson";
+        }
     },
     eventMode: {
         type: String,
