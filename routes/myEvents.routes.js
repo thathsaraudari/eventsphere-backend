@@ -16,4 +16,15 @@ router.get("/attending", isAuthenticated, async (req, res, next) => {
 
 });
 
+router.get("/hosting", isAuthenticated, async (req, res, next) => {
+  try {
+    const user = req.user;
+    console.log(user);
+    const events = await Event.find({ userId: user._id });
+    res.json(events);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
