@@ -57,13 +57,6 @@ const eventSchema = new Schema(
         enum: ["Online", "Inperson"],
         required: true
     },
-    venueType: {
-        type: String,
-        enum: ["Indoor", "Outdoor"],
-        required: function () {
-            return this.eventMode === "Inperson";
-        }
-    },
     coverUrl: { type: String },
  },
   {
