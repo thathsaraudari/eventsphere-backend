@@ -17,11 +17,6 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'name is required.'],
       trim: true
-    },
-    role:{
-      type: String,
-      enum: ["organizer", "user"],
-      default: "user"
     }
   },
   {
