@@ -1,10 +1,12 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 const rsvpSchema = new Schema(
   {
     eventId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: "Event"
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
