@@ -8,10 +8,8 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: '*',
-  credentials: false,
-  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: 'https://symphonious-blini-abc03c.netlify.app',
+  credentials: true,
 }));
 
 try {
