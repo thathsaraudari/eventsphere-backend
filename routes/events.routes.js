@@ -6,26 +6,59 @@ const { getEventById, calculateSeatsRemaining } = require('../controllers/events
 const { isAuthenticated } = require('../middlewares/jwt.middleware');
 
 router.get("/", async (req, res, next) => {
-  
   try {
-    const {searchTerm = "", postCode = ""} = req.query;
-    
+    const {
+      q = "",
+      postalCode = "",
+      category = "",
+      page = "1",
+      limit = "9",
+    } = req.query;
+
+    const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+    const limitNum = Math.max(parseInt(limit, 10) || 9, 1);
+    const skip = (pageNum - 1) * limitNum;
+
     const filterQuery = {};
 
-    if (searchTerm.trim()) {
-      filterQuery.title = { $regex: searchTerm.trim(), $options: 'i' };
+    const search = (q || "").toString().trim();
+    if (search) {
+      filterQuery.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
     }
 
-    if (postCode.trim()) {
-      filterQuery["location.postCode"] = { $regex: postCode.trim(), $options: 'i'};
+    const postalCodeQuery = (postalCode || "").toString().trim();
+    if (postalCodeQuery) {
+      filterQuery["location.postCode"] = { $regex: postalCode, $options: 'i' };
     }
 
-    const events = await Event.find(filterQuery);
-    res.json(events);
+    const categoryQuery = category.toString().trim();
+    if (categoryQuery) {
+      filterQuery.category = { $regex: `^${categoryQuery}$`, $options: 'i' };
+    }
+
+    const [total, events] = await Promise.all([
+      Event.countDocuments(filterQuery),
+      Event.find(filterQuery)
+        .sort({ startAt: 1, createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum),
+    ]);
+
+    const totalPages = Math.max(Math.ceil(total / limitNum), 1);
+
+    res.json({
+      data: events,
+      page: pageNum,
+      limit: limitNum,
+      total,
+      totalPages,
+    });
   } catch (err) {
     next(err);
   }
-
 });
 
 router.post('/', isAuthenticated, async (req, res, next) => {
