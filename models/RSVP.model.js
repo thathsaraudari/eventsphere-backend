@@ -15,7 +15,7 @@ const rsvpSchema = new Schema(
     },
     status:{
         type: String, 
-        enum: ["reserved", "usecancelled"],
+        enum: ["reserved", "cancelled"],
         default: "reserved"
     }
   },
