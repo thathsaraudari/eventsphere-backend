@@ -35,7 +35,7 @@ router.get("/attending/:eventId", isAuthenticated, async (req, res, next) => {
 router.get("/hosting", isAuthenticated, async (req, res, next) => {
   try {
     const user = req.user;
-    const events = await Event.find({ userId: user._id });
+    const events = await Event.find({ userId: user._id, active: true });
     res.json(events);
   } catch (err) {
     next(err);
