@@ -23,12 +23,14 @@ const indexRoutes = require('./routes/index.routes.js');
 const authRoutes  = require('./routes/auth.routes.js');  
 const eventsRoutes  = require('./routes/events.routes.js');  
 const myEventsRoutes  = require('./routes/myEvents.routes.js');
+const savedEventsRoutes  = require('./routes/savedEvents.routes.js');
 
 app.use('/api', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/events', eventsRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/my-events', myEventsRoutes);
+app.use('/api/saved-events', savedEventsRoutes);
 
 try {
   require('./error-handling')(app);
