@@ -9,7 +9,7 @@ router.get("/attending", isAuthenticated, async (req, res, next) => {
   
   try {
     const user = req.user; 
-    const rsvps = await RSVP.find({ userId: user._id }).populate('eventId');
+    const rsvps = await RSVP.find({ userId: user._id, status: 'reserved' }).populate('eventId');
     res.json(rsvps);
   } catch (err) {
     next(err);
@@ -63,7 +63,7 @@ router.post('/attending/:eventId/rsvp/toggle', isAuthenticated, async (req, res,
       rsvp = await RSVP.create({ eventId, userId, status: 'reserved' });
     } else {
       if (rsvp.status === 'reserved') {
-        rsvp.status = 'usecancelled';
+        rsvp.status = 'cancelled';
         await rsvp.save();
       } else {
         await calculateSeatsRemaining(event);
