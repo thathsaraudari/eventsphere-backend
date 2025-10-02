@@ -24,6 +24,7 @@ const authRoutes  = require('./routes/auth.routes.js');
 const eventsRoutes  = require('./routes/events.routes.js');  
 const myEventsRoutes  = require('./routes/myEvents.routes.js');
 const savedEventsRoutes  = require('./routes/savedEvents.routes.js');
+const profileRoutes  = require('./routes/profile.routes.js');
 
 app.use('/api', indexRoutes);
 app.use('/auth', authRoutes);
@@ -31,6 +32,7 @@ app.use('/events', eventsRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/my-events', myEventsRoutes);
 app.use('/api/saved-events', savedEventsRoutes);
+app.use('/api/profile', profileRoutes);
 
 try {
   require('./error-handling')(app);
