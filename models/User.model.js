@@ -7,17 +7,40 @@ const userSchema = new Schema(
       required: [true, 'Email is required.'],
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
     password: {
       type: String,
-      required: [true, 'Password is required.']
+      required: [true, 'Password is required.'],
     },
-    name:{
+    firstName: {
       type: String,
-      required: [true, 'name is required.'],
-      trim: true
-    }
+      required: [true, 'First name is required.'],
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+    },
+    prefix: {
+      type: String,
+      trim: true,
+    },
+    jobTitle: {
+      type: String,
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+    },
+    address: {
+      line1: { type: String, trim: true },
+      line2: { type: String, trim: true },
+      city: { type: String, trim: true },
+      country: { type: String, trim: true },
+      zipcode: { type: String, trim: true },
+    },
   },
   {
     timestamps: true

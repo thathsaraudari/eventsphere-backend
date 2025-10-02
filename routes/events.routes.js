@@ -142,14 +142,20 @@ router.get('/:id/participants', async (req, res, next) => {
 
     const rsvps = await RSVP
       .find({ eventId: id })
-      .populate('userId', 'name email')
+      .populate('userId', 'firstName lastName email prefix jobTitle')
       .select('userId status');
 
-    const participants = rsvps.map(r => ({
-      name: r.userId?.name,
-      email: r.userId?.email,
-      status: r.status,
-    }));
+    const participants = rsvps.map(r => {
+      const user = r.userId || {};
+      const fullName = [user.firstName || user.name, user.lastName].filter(Boolean).join(' ');
+      return {
+        firstName: user.firstName || user.name,
+        lastName: user.lastName || '',
+        fullName: fullName || undefined,
+        email: user.email,
+        status: r.status,
+      };
+    });
 
     res.json(participants);
   } catch (err) {
