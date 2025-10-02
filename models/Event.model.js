@@ -73,6 +73,7 @@ const eventSchema = new Schema(
         required: true
     },
     coverUrl: { type: String },
+    active: { type: Boolean, default: true },
  },
   {
     timestamps: true

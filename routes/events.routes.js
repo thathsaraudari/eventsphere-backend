@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
     const limitNum = Math.max(parseInt(limit, 10) || 9, 1);
     const skip = (pageNum - 1) * limitNum;
 
-    const filterQuery = {};
+    const filterQuery = { active: true };
 
     const search = (q || "").toString().trim();
     if (search) {
@@ -56,6 +56,28 @@ router.get("/", async (req, res, next) => {
       total,
       totalPages,
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/:id', isAuthenticated, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const event = await Event.findById(id);
+
+    if (event.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to delete this event' });
+    }
+
+    if (event.active === false) {
+      return res.json({ success: true, message: 'Event already inactive', event });
+    }
+
+    event.active = false;
+    const saved = await event.save();
+    return res.json({ success: true, event: saved });
   } catch (err) {
     next(err);
   }
