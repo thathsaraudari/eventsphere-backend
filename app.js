@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use(cors({
   origin: [
-    'https://symphonious-blini-abc03c.netlify.app',
+    'https://eventsphere-dev.netlify.app',
     'http://localhost:5173'
   ],
   credentials: true,
