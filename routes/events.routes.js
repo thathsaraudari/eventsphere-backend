@@ -5,6 +5,10 @@ const RSVP = require("../models/RSVP.model");
 const { getEventById, calculateSeatsRemaining } = require('../controllers/events.controller');
 const { isAuthenticated } = require('../middlewares/jwt.middleware');
 
+function escapeRegex(str = "") {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 router.get("/", async (req, res, next) => {
   try {
     const {
@@ -36,7 +40,8 @@ router.get("/", async (req, res, next) => {
 
     const categoryQuery = category.toString().trim();
     if (categoryQuery) {
-      filterQuery.category = { $regex: `^${categoryQuery}$`, $options: 'i' };
+      const pattern = `^${escapeRegex(categoryQuery)}$`;
+      filterQuery.category = { $regex: pattern, $options: 'i' };
     }
 
     const [total, events] = await Promise.all([
