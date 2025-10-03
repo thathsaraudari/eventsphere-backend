@@ -37,7 +37,6 @@ router.get("/", async (req, res, next) => {
 
     const categoryQuery = category.toString().trim();
     if (categoryQuery) {
-      const pattern = `^${escapeRegex(categoryQuery)}$`;
       filterQuery.category = { $regex: `^${categoryQuery}$`, $options: 'i' };
     }
 

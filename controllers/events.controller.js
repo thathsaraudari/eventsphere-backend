@@ -22,6 +22,7 @@ async function getEventById(req, res) {
 }
  module.exports = { getEventById };
 
+// calculate the seats Remaining based on RSVPs
 async function calculateSeatsRemaining(event) {
     const reservedCount = await RSVP.countDocuments({ eventId: event._id, status: 'reserved' });
     const cap = Math.max(0, event.capacity.number);
